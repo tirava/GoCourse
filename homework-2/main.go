@@ -10,6 +10,8 @@ import (
 	"strconv"
 )
 
+const MAX_FIBONACCI = 93
+
 func main() {
 
 	// 1
@@ -32,19 +34,31 @@ func main() {
 		fmt.Println("The number is not divisible by 3, remainder:", result)
 	}
 
-	//3
-	msg = "\nEnter amount of the first Fibonacci numbers:"
-	num = getIntNum(&msg)
-	fmt.Println("First "+strconv.Itoa(num)+" Fibonacci numbers:\n", getNFibonacci(num, 1))
+	// 3 & 4
+	msg = "\nEnter amount of the first Fibonacci numbers (min = 2, max = " + strconv.Itoa(MAX_FIBONACCI) + "):"
+	for {
+		num = getIntNum(&msg)
+		if num > 93 || num < 2 {
+			continue
+		} else {
+			break
+		}
+	}
+	fmt.Println("First "+strconv.Itoa(num)+" Fibonacci numbers:\n", getNFibonacci(num, 0))
+
+	// 5
+	//111
 }
 
 // getNFibonacci returns N first Fibonacci numbers in slice, first = 0 or 1
-func getNFibonacci(n int, first int) (slice []int) {
-	arr := make([]int, n)
-	arr[0] = first
+func getNFibonacci(n int, first int) (slice []uint64) {
+	arr := make([]uint64, n)
+	arr[0] = uint64(first)
 	arr[1] = 1
 	for i := 2; i < n; i++ {
 		arr[i] = arr[i-1] + arr[i-2]
+		// uncomment to print vertical
+		// println(arr[i])
 	}
 	return arr
 }
