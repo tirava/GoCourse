@@ -10,7 +10,9 @@ import (
 	"strconv"
 )
 
-const MAX_FIBONACCI = 93
+const maxFibonacci = 93
+const maxPrime = 500
+const maxPrimeIndex = 3571 + 1 // max integer for prime = 500 (see wiki)
 
 func main() {
 
@@ -35,10 +37,10 @@ func main() {
 	}
 
 	// 3 & 4
-	msg = "\nEnter amount of the first Fibonacci numbers (min = 2, max = " + strconv.Itoa(MAX_FIBONACCI) + "):"
+	msg = "\nEnter amount of the first Fibonacci numbers (min = 2, max = " + strconv.Itoa(maxFibonacci) + "):"
 	for {
 		num = getIntNum(&msg)
-		if num > 93 || num < 2 {
+		if num > maxFibonacci || num < 2 {
 			continue
 		} else {
 			break
@@ -47,7 +49,52 @@ func main() {
 	fmt.Println("First "+strconv.Itoa(num)+" Fibonacci numbers:\n", getNFibonacci(num, 0))
 
 	// 5
-	//111
+	msg = "\nEnter amount of elements for the prime numbers slice (min = 1, max = " + strconv.Itoa(maxPrime) + "):"
+	for {
+		num = getIntNum(&msg)
+		if num > maxPrime || num < 1 {
+			continue
+		} else {
+			break
+		}
+	}
+	fmt.Println("First "+strconv.Itoa(num)+" prime numbers:\n", fillPrimeNumber(num))
+}
+
+// fillPrimeNumber fills slice contains N elements for the prime numbers
+func fillPrimeNumber(n int) (slice []int) {
+	defer func() {
+		if r := recover(); r != nil {
+			fmt.Println("Don't panic, everything is under control )", r)
+		}
+	}()
+
+	boolArr := make([]bool, maxPrimeIndex) //max prime index for first 500 numbers
+	boolArr[0] = true                      // non prime
+	boolArr[1] = true                      // non prime
+
+	// fill bool array non prime numbers, prime = false for default
+	for i := 2; i < maxPrimeIndex; i++ {
+		if !boolArr[i] {
+			if i*i < maxPrimeIndex {
+				for j := i * i; j < maxPrimeIndex; j += i {
+					boolArr[j] = true
+				}
+			}
+		}
+	}
+	// convert bool indexes to prime numbers
+	primeArr := make([]int, 0, n)
+	for i := 0; i < maxPrimeIndex; i++ {
+		if !boolArr[i] {
+			primeArr = append(primeArr, i)
+			n--
+			if n == 0 {
+				break // no need more than n
+			}
+		}
+	}
+	return primeArr
 }
 
 // getNFibonacci returns N first Fibonacci numbers in slice, first = 0 or 1
