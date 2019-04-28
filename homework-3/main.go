@@ -58,6 +58,9 @@ var truckKamaz = truck{
 	numOfAxes: 3,
 }
 
+// 3
+type queue []int
+
 func main() {
 
 	// 2
@@ -76,6 +79,28 @@ func main() {
 
 	carZhiguli.printCar()
 	truckKamaz.printTruck()
+
+	// 3
+	iQueue := make(queue, 0)
+	iQueue = iQueue.Push(111)
+	iQueue = iQueue.Push(222)
+	iQueue = iQueue.Push(333)
+	fmt.Println(iQueue)
+
+	for _, item := range iQueue {
+		iQueue, item = iQueue.Shift()
+		fmt.Println(iQueue, "->", item)
+	}
+}
+
+// Push is for pushing item into queue
+func (queue queue) Push(item int) queue {
+	return append(queue, item)
+}
+
+// Shift is for return and shifting queue items
+func (queue queue) Shift() (queue, int) {
+	return queue[1:], queue[0]
 }
 
 // printMachine prints common machine properties
