@@ -1,6 +1,6 @@
 // Syntax Go:	Homework-2
-// Author:		Eugene Klimov
-// Date:		23 april 2019
+// Author:	Eugene Klimov
+// Date:	23 april 2019
 
 package main
 
@@ -76,7 +76,7 @@ func fillPrimeNumber(n int) (slice []int) {
 	// fill bool array non prime numbers, prime = false for default
 	for i := 2; i < maxPrimeIndex; i++ {
 		if !boolArr[i] {
-			if i*i < maxPrimeIndex {
+			if i * i < maxPrimeIndex {
 				for j := i * i; j < maxPrimeIndex; j += i {
 					boolArr[j] = true
 				}
