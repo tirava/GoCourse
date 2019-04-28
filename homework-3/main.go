@@ -61,18 +61,45 @@ var truckKamaz = truck{
 func main() {
 
 	// 2
-	fmt.Println(carZhiguli)
-	fmt.Println(truckKamaz)
+	carZhiguli.printCar()
+	truckKamaz.printTruck()
+	fmt.Println("----- Go! -----")
 
 	carZhiguli.isEngineStart = true
 	carZhiguli.isWindowsOpen = false
 	carZhiguli.fuelVolume = 40
 	carZhiguli.sport = true
-	fmt.Println(carZhiguli)
 
 	truckKamaz.isWindowsOpen = true
 	truckKamaz.fuelVolume = 5
 	truckKamaz.isEngineStart = false
-	fmt.Println(truckKamaz)
 
+	carZhiguli.printCar()
+	truckKamaz.printTruck()
+}
+
+// printMachine prints common machine properties
+func (mach machine) printMachine() {
+	fmt.Println("Machine brand:", mach.brand)
+	fmt.Println("Year of release:", mach.year)
+	fmt.Println("Volume of engine", mach.volume)
+	fmt.Println("Engine is started?", mach.isEngineStart)
+	fmt.Println("Windows are open?", mach.isWindowsOpen)
+	fmt.Println("Fuel volume:", mach.fuelVolume)
+}
+
+// printCar print Car properties
+func (car car) printCar() {
+	car.printMachine()
+	fmt.Println("Number of passengers:", car.passengerSeats)
+	fmt.Println("Sport mode:", car.sport)
+	fmt.Println("")
+}
+
+// printTruck print Truck properties
+func (truck truck) printTruck() {
+	truck.printMachine()
+	fmt.Println("Type of body:", truck.bodyType)
+	fmt.Println("Number of axes:", truck.numOfAxes)
+	fmt.Println("")
 }
