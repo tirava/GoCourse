@@ -64,8 +64,8 @@ type queue []int
 func main() {
 
 	// 2
-	carZhiguli.printCar()
-	truckKamaz.printTruck()
+	carZhiguli.print()
+	truckKamaz.print()
 	fmt.Println("----- Go! -----")
 
 	carZhiguli.isEngineStart = true
@@ -77,8 +77,8 @@ func main() {
 	truckKamaz.fuelVolume = 5
 	truckKamaz.isEngineStart = false
 
-	carZhiguli.printCar()
-	truckKamaz.printTruck()
+	carZhiguli.print()
+	truckKamaz.print()
 
 	// 3
 	iQueue := make(queue, 0)
@@ -114,7 +114,7 @@ func (mach machine) printMachine() {
 }
 
 // printCar print Car properties
-func (car car) printCar() {
+func (car car) print() {
 	car.printMachine()
 	fmt.Println("Number of passengers:", car.passengerSeats)
 	fmt.Println("Sport mode:", car.sport)
@@ -122,7 +122,7 @@ func (car car) printCar() {
 }
 
 // printTruck print Truck properties
-func (truck truck) printTruck() {
+func (truck truck) print() {
 	truck.printMachine()
 	fmt.Println("Type of body:", truck.bodyType)
 	fmt.Println("Number of axes:", truck.numOfAxes)
