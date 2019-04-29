@@ -1,10 +1,17 @@
 // Homework-2: Arrays, Slices, Maps, Structures, JSON
 // Author: Eugene Klimov
-// Date: 28 april 2019
+// Date: 29 april 2019
 
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"os"
+	"path/filepath"
+)
 
 // 1
 // machine - common properties
@@ -61,6 +68,11 @@ var truckKamaz = truck{
 // 3
 type queue []int
 
+// 4
+type addressBook map[string][]string
+
+const jsonName = "ab.json"
+
 func main() {
 
 	// 2
@@ -91,6 +103,45 @@ func main() {
 		iQueue, item = iQueue.Shift()
 		fmt.Println(iQueue, "->", item)
 	}
+
+	// 4
+	ab := make(addressBook, 2)
+	ab["John"] = []string{"+70001112233"}
+	ab["Klim"] = []string{"+71112223344"}
+	ab["Klim"] = append(ab["Klim"], "+15554443322")
+	fmt.Println("")
+	printAddressBook(&ab)
+
+	f, err := saveJsonAB(&ab)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("\nAddressBook saved as", f)
+}
+
+// saveJsonAB saves Address Book as JSON file
+func saveJsonAB(ab *addressBook) (path string, err error) {
+	b, err := json.Marshal(*ab)
+	if err != nil {
+		return "", err
+	}
+
+	filePath := filepath.Dir(os.Args[0]) // for correct path run "go build" instead "go run"
+	fileName := filepath.Join(filePath, jsonName)
+
+	err = ioutil.WriteFile(fileName, b, 0777)
+
+	return fileName, err
+}
+
+// printAddressBook prints any Address Book
+func printAddressBook(ab *addressBook) {
+	for name, numbers := range *ab {
+		fmt.Println("Abonent:", name)
+		for i, number := range numbers {
+			fmt.Printf("\t %v: %v \n", i+1, number)
+		}
+	}
 }
 
 // Push is for pushing item into queue
@@ -113,7 +164,7 @@ func (mach machine) printMachine() {
 	fmt.Println("Fuel volume:", mach.fuelVolume)
 }
 
-// printCar print Car properties
+// printCar prints Car properties
 func (car car) print() {
 	car.printMachine()
 	fmt.Println("Number of passengers:", car.passengerSeats)
@@ -121,7 +172,7 @@ func (car car) print() {
 	fmt.Println("")
 }
 
-// printTruck print Truck properties
+// printTruck prints Truck properties
 func (truck truck) print() {
 	truck.printMachine()
 	fmt.Println("Type of body:", truck.bodyType)
