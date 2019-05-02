@@ -1,7 +1,6 @@
 // Homework-4: Methods and Interfaces
 // Author: Eugene Klimov
 // Date: 02 may 2019
-
 package main
 
 import (
@@ -24,17 +23,19 @@ func main() {
 	vehicle.Buy(Velik, 1234.56)
 	vehicle.List(Velik)
 
+	fmt.Printf("Overall prices: %.2f\n\n", vehicle.GetSumPrices(Zhiguli, Velik))
+
 	fmt.Printf("----- Go! -----\n\n")
 
 	if vehicle.Go(Zhiguli) {
-		fmt.Println("Zhiguli Goes succsessfully )")
+		fmt.Println("Zhiguli Goes successfully )")
 		vehicle.List(Zhiguli)
 	} else {
 		fmt.Printf("Zhiguli fails to Go (\n\n")
 	}
 
 	if vehicle.Go(Velik) {
-		fmt.Println("Velik Goes succsessfully )")
+		fmt.Println("Velik Goes successfully )")
 		vehicle.List(Velik)
 	} else {
 		fmt.Printf("Velik fails to Go (\n\n")

@@ -8,7 +8,8 @@ import (
 type Vehicler interface {
 	Buy(price float32)
 	List()
-	Go() bool // is successfull
+	Go() bool // is successful
+	GetPrice() float32
 }
 
 type Car struct {
@@ -36,8 +37,8 @@ type Bike struct {
 }
 
 // Buy interface
-func Buy(v Vehicler, cost float32) {
-	v.Buy(cost)
+func Buy(v Vehicler, price float32) {
+	v.Buy(price)
 }
 
 // List interface
@@ -48,6 +49,15 @@ func List(v Vehicler) {
 // Go feature
 func Go(v Vehicler) bool {
 	return v.Go()
+}
+
+// GetSumPrices returns sum of all prices
+func GetSumPrices(price ...Vehicler) float32 {
+	var sum float32
+	for _, p := range price {
+		sum += p.GetPrice()
+	}
+	return sum
 }
 
 // Buy car
@@ -104,17 +114,28 @@ func (b Bike) List() {
 	fmt.Println("")
 }
 
-// Go starts vehicle to go
+// Go starts car to go
 func (c *Car) Go() bool {
 	c.sport = true
 	c.isWindowsOpen = false
 	c.price = c.price / 2
-	return false
+	return false // false - engine does not work
 }
 
+// Go starts bike to go
 func (b *Bike) Go() bool {
 	b.target = "Road"
 	b.electric = true
 	b.price = b.price / 2
-	return true
+	return true // true - all is ok
+}
+
+// GetPrice returns current car price
+func (c *Car) GetPrice() float32 {
+	return c.price
+}
+
+// GetPrice returns current bike price
+func (b *Bike) GetPrice() float32 {
+	return b.price
 }
