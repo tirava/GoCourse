@@ -1,16 +1,14 @@
 // Homework-4: Methods and Interfaces
 // Author: Eugene Klimov
-// Date: 02 may 2019
+// Date: 03 may 2019
 package main
 
 import (
+	"./addressbook"
 	"./vehicle"
 	"fmt"
+	"sort"
 )
-
-//type addressBook map[string][]string
-
-//const jsonName = "ab.json"
 
 func main() {
 
@@ -40,43 +38,32 @@ func main() {
 	} else {
 		fmt.Printf("Velik fails to Go (\n\n")
 	}
+	// -----------------------
 
-	// 2
-	/*ab := make(addressBook, 2)
-	ab["John"] = []string{"+70001112233"}
-	ab["Klim"] = []string{"+71112223344"}
-	ab["Klim"] = append(ab["Klim"], "+15554443322")
-	fmt.Println("")
-	printAddressBook(&ab)
-
-	f, err := saveJsonAB(&ab)
-	if err != nil {
-		log.Fatal(err)
+	human := []addressbook.Person{
+		{"John Go", 24, []string{"+70001112233", "+56734512334"}, "Moscow"},
+		{"Valery Moon", 45, []string{"+79991234567"}, "Tula"},
+		{"Klim Sangin", 18, []string{"+71112223344", "+15554443322", "+23458887766"}, "Minsk"},
+		{"Kir Korov", 30, []string{"+800987654321"}, "Aldebaran"},
 	}
-	fmt.Println("\nAddressBook saved as", f)*/
+
+	sort.Sort(addressbook.ByAge(human))
+	fmt.Println("\nSorted by Age:")
+	printAddressBook(&human)
+
+	sort.Sort(addressbook.ByAddr(human))
+	fmt.Println("\nSorted by Address:")
+	printAddressBook(&human)
 }
 
-// saveJsonAB saves Address Book as JSON file
-/*func saveJsonAB(ab *addressBook) (path string, err error) {
-	b, err := json.Marshal(*ab)
-	if err != nil {
-		return "", err
-	}
-
-	filePath := filepath.Dir(os.Args[0]) // for correct path run "go build" instead "go run"
-	fileName := filepath.Join(filePath, jsonName)
-
-	err = ioutil.WriteFile(fileName, b, 0777)
-
-	return fileName, err
-}*/
-
-// printAddressBook prints any Address Book
-/*func printAddressBook(ab *addressBook) {
-	for name, numbers := range *ab {
-		fmt.Println("Abonent:", name)
-		for i, number := range numbers {
-			fmt.Printf("\t %v: %v \n", i+1, number)
+// printAddressBook prints my address book
+func printAddressBook(ab *[]addressbook.Person) {
+	for _, item := range *ab {
+		fmt.Printf("\nName: %v\n", item.Name)
+		fmt.Printf("\tAge: %v\n", item.Age)
+		for i, number := range item.Phones {
+			fmt.Printf("\tPh.%v: %v \n", i+1, number)
 		}
+		fmt.Printf("\tAddress: %v\n", item.Address)
 	}
-}*/
+}
