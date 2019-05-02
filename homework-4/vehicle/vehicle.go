@@ -10,6 +10,7 @@ type Vehicler interface {
 	List()
 	Go() bool // is successful
 	GetPrice() float32
+	Repair(bool)
 }
 
 type Car struct {
@@ -24,16 +25,18 @@ type Car struct {
 	passengerSeats int
 	sport          bool    // sport mode\
 	price          float32 // dollars
+	serviceable    bool
 }
 
 type Bike struct {
-	kind     string
-	brand    string
-	gender   string
-	target   string
-	wheels   float32
-	electric bool
-	price    float32
+	kind        string
+	brand       string
+	gender      string
+	target      string
+	wheels      float32
+	electric    bool
+	price       float32
+	serviceable bool
 }
 
 // Buy interface
@@ -49,6 +52,11 @@ func List(v Vehicler) {
 // Go feature
 func Go(v Vehicler) bool {
 	return v.Go()
+}
+
+// Repair vehicle
+func Repair(v Vehicler, rep bool) {
+	v.Repair(rep)
 }
 
 // GetSumPrices returns sum of all prices
@@ -73,6 +81,7 @@ func (c *Car) Buy(price float32) {
 	c.passengerSeats = 4
 	c.sport = false
 	c.price = price
+	c.serviceable = false
 }
 
 // Buy bike
@@ -84,6 +93,7 @@ func (b *Bike) Buy(price float32) {
 	b.wheels = 29 // inches
 	b.electric = false
 	b.price = price
+	b.serviceable = true
 }
 
 // List car properties - simple print but need store in the array in feature
@@ -99,6 +109,7 @@ func (c Car) List() {
 	fmt.Println("Number of passengers:", c.passengerSeats)
 	fmt.Println("Sport mode:", c.sport)
 	fmt.Println("Price:", c.price)
+	fmt.Println("Serviceable:", c.serviceable)
 	fmt.Println("")
 }
 
@@ -111,6 +122,7 @@ func (b Bike) List() {
 	fmt.Println("Wheels size:", b.wheels)
 	fmt.Println("Use electric engine?", b.electric)
 	fmt.Println("Price:", b.price)
+	fmt.Println("Serviceable:", b.serviceable)
 	fmt.Println("")
 }
 
@@ -119,7 +131,7 @@ func (c *Car) Go() bool {
 	c.sport = true
 	c.isWindowsOpen = false
 	c.price = c.price / 2
-	return false // false - engine does not work
+	return c.serviceable // false - engine does not work
 }
 
 // Go starts bike to go
@@ -127,7 +139,7 @@ func (b *Bike) Go() bool {
 	b.target = "Road"
 	b.electric = true
 	b.price = b.price / 2
-	return true // true - all is ok
+	return b.serviceable // true - all is ok
 }
 
 // GetPrice returns current car price
@@ -138,4 +150,14 @@ func (c *Car) GetPrice() float32 {
 // GetPrice returns current bike price
 func (b *Bike) GetPrice() float32 {
 	return b.price
+}
+
+// Repair need for service car
+func (c *Car) Repair(rep bool) {
+	c.serviceable = rep
+}
+
+// Repair need for service bike
+func (b *Bike) Repair(rep bool) {
+	b.serviceable = rep
 }

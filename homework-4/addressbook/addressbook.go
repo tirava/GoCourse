@@ -8,7 +8,7 @@ type Person struct {
 	Address string
 }
 
-//ByName implements sort interface for Person's ages
+//ByAge implements sort interface for Person's ages
 type ByAge []Person
 
 //ByAddr implements sort interface for Person's names
