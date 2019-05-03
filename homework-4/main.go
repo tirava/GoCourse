@@ -11,7 +11,7 @@ import (
 )
 
 // vehMap needs for store vehicles map and optimized printing
-type vehMap map[string]*vehicle.Vehicler
+type vehMap map[string]vehicle.Vehicler
 
 func main() {
 
@@ -21,9 +21,9 @@ func main() {
 	// Zhiguli & Velik are examples of bad names of variables
 	veh := make(vehMap, 2)
 	var Zhiguli vehicle.Vehicler = new(vehicle.Car)
-	veh["Zhiguli"] = &Zhiguli
+	veh["Zhiguli"] = Zhiguli
 	var Velik vehicle.Vehicler = new(vehicle.Bike)
-	veh["Velik"] = &Velik
+	veh["Velik"] = Velik
 
 	vehicle.Buy(Zhiguli, 3456.78)
 	vehicle.List(Zhiguli)
@@ -35,14 +35,14 @@ func main() {
 	fmt.Printf("----- Go! -----\n\n")
 
 	for s, v := range veh {
-		if vehicle.Go(*v) {
+		if vehicle.Go(v) {
 			fmt.Printf(s + " Goes successfully )\n\n")
 		} else {
 			fmt.Printf(s + " fails to Go, repairing... (\n")
-			vehicle.Repair(*v, true)
+			vehicle.Repair(v, true)
 			fmt.Printf("...ok!\n\n")
 		}
-		vehicle.List(*v)
+		vehicle.List(v)
 	}
 
 	fmt.Printf("Overall price after Go: %.2f\n\n", vehicle.GetSumPrices(Zhiguli, Velik))
