@@ -4,8 +4,8 @@
 package main
 
 import (
-	"./addressbook"
-	"./vehicle"
+	"./addressbook" // package link "./" is over main.go path
+	"./vehicle"     // you may also use GOPATH src as root, i.e "GoCourse/homework-4/addressbook"
 	"fmt"
 	"sort"
 )

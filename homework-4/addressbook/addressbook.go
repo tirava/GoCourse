@@ -1,4 +1,4 @@
-// implements addressbook % sorting
+// implements addressbook & sorting
 package addressbook
 
 type Person struct {

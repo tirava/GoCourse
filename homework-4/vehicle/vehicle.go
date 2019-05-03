@@ -6,10 +6,10 @@ import (
 )
 
 type Vehicler interface {
-	Buy(price float32)
+	Buy(price float64)
 	List()
 	Go() bool // is successful
-	GetPrice() float32
+	GetPrice() float64
 	Repair(bool)
 }
 
@@ -24,7 +24,7 @@ type Car struct {
 	fuelVolume     float64 // in litres
 	passengerSeats int
 	sport          bool    // sport mode\
-	price          float32 // dollars
+	price          float64 // dollars
 	serviceable    bool
 }
 
@@ -33,14 +33,14 @@ type Bike struct {
 	brand       string
 	gender      string
 	target      string
-	wheels      float32
+	wheels      float64
 	electric    bool
-	price       float32
+	price       float64
 	serviceable bool
 }
 
 // Buy interface
-func Buy(v Vehicler, price float32) {
+func Buy(v Vehicler, price float64) {
 	v.Buy(price)
 }
 
@@ -60,8 +60,8 @@ func Repair(v Vehicler, rep bool) {
 }
 
 // GetSumPrices returns sum of all prices
-func GetSumPrices(price ...Vehicler) float32 {
-	var sum float32
+func GetSumPrices(price ...Vehicler) float64 {
+	var sum float64
 	for _, p := range price {
 		sum += p.GetPrice()
 	}
@@ -69,7 +69,7 @@ func GetSumPrices(price ...Vehicler) float32 {
 }
 
 // Buy car
-func (c *Car) Buy(price float32) {
+func (c *Car) Buy(price float64) {
 	c.kind = "Car"
 	c.brand = "VAZ-2105"
 	c.year = 1994
@@ -85,7 +85,7 @@ func (c *Car) Buy(price float32) {
 }
 
 // Buy bike
-func (b *Bike) Buy(price float32) {
+func (b *Bike) Buy(price float64) {
 	b.kind = "Bike"
 	b.brand = "Merida"
 	b.gender = "man"
@@ -143,12 +143,12 @@ func (b *Bike) Go() bool {
 }
 
 // GetPrice returns current car price
-func (c *Car) GetPrice() float32 {
+func (c *Car) GetPrice() float64 {
 	return c.price
 }
 
 // GetPrice returns current bike price
-func (b *Bike) GetPrice() float32 {
+func (b *Bike) GetPrice() float64 {
 	return b.price
 }
 
