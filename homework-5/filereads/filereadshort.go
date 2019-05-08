@@ -9,7 +9,6 @@ import (
 func main() {
 
 	bs, err := ioutil.ReadFile("filereadshort.go")
-	// Можно всё в одну строку, если обработка несложная
 	// if err != nil {
 	// Лучше логгировать в консоль и выходить
 	// return
