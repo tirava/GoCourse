@@ -1,7 +1,7 @@
 // Homework-5: Standard library - Part 1
 // Exercise 3 - CSV example
 // Author: Eugene Klimov
-// Date: 08 may 2019
+// Date: 09 may 2019
 package main
 
 import (
@@ -48,7 +48,7 @@ func main() {
 
 	// fill persons from csv data
 	persons := make([]Person, 0, len(csvData))
-	csv2Slice(csvData, &persons)
+	slice2CSV2Slice(&csvData, &persons, false)
 
 	log.Println("Persons filled...")
 
@@ -57,10 +57,10 @@ func main() {
 	fmt.Println(persons)           // persons data in custom string
 
 	// change some items
-	persons[0].firstName, persons[0].lastName = "Eugene", "Klimov"
-	persons[5].emailAddr = "------------------"
-	persons[9].firstName, persons[9].lastName, persons[9].mobPhone = "John", "Klim", "+12345678910"
-	slice2CSV(persons, &csvData)
+	persons[0].firstName, persons[0].lastName = "*Eugen", "*Klimov"
+	persons[5].emailAddr = "*------------------"
+	persons[9].firstName, persons[9].lastName, persons[9].mobPhone = "*John", "*Klim", "*+12345678910"
+	slice2CSV2Slice(&csvData, &persons, true)
 
 	log.Println("Persons edited...")
 
@@ -80,34 +80,28 @@ func main() {
 	log.Println("File", CsvFileNew, "written successfully!")
 }
 
-//csv2Slice fills persons slice from csv
-func csv2Slice(csv [][]string, p *[]Person) {
-	for i, column := range csv {
-		if i == 0 {
-			continue // skip header
-		}
-		p1 := Person{
-			firstName:    column[0],
-			lastName:     column[1],
-			accountLogin: column[2],
-			emailAddr:    column[3],
-			mobPhone:     column[4],
-		}
-		*p = append(*p, p1)
-	}
-}
-
-//slice2CSV fills csv from persons slice
-func slice2CSV(p []Person, csv *[][]string) {
+//slice2CSV2Slice fills csv from persons slice and vise versa
+func slice2CSV2Slice(csv *[][]string, p *[]Person, reverse bool) {
 	for i, column := range *csv {
 		if i == 0 {
 			continue // skip header
 		}
-		column[0] = p[i-1].firstName
-		column[1] = p[i-1].lastName
-		column[2] = p[i-1].accountLogin
-		column[3] = p[i-1].emailAddr
-		column[4] = p[i-1].mobPhone
+		if !reverse {
+			p1 := Person{
+				firstName:    column[0],
+				lastName:     column[1],
+				accountLogin: column[2],
+				emailAddr:    column[3],
+				mobPhone:     column[4],
+			}
+			*p = append(*p, p1)
+		} else {
+			column[0] = (*p)[i-1].firstName
+			column[1] = (*p)[i-1].lastName
+			column[2] = (*p)[i-1].accountLogin
+			column[3] = (*p)[i-1].emailAddr
+			column[4] = (*p)[i-1].mobPhone
+		}
 	}
 }
 
