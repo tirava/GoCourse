@@ -33,10 +33,6 @@ func main() {
 	// reading file
 	bs := make([]byte, stat.Size())
 	// Здесь тоже можно сделать сильно короче, т.к. получаем только один аргумент (err), но хуже читаемость
-	//_, err = file.Read(bs)
-	//if err != nil {
-	//    return
-	//}
 	_, err = file.Read(bs)
 	//if err != nil {
 	//    return

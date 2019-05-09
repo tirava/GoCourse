@@ -3,16 +3,19 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
+	"log"
 	"os"
 )
 
+// Common constants
 const (
-	CSV_FILE     = "./users.csv"
-	CSV_FILE_NEW = "./users_new.csv"
-	COMMA_IN     = ','
-	COMMA_OUT    = '\t'
+	CsvFile    = "./users.csv"
+	CsvFileNew = "./users_new.csv"
+	CommaIn    = ','
+	CommaOut   = '\t'
 )
 
+// Person is a common person scruct
 type Person struct {
 	firstName    string
 	lastName     string
@@ -25,22 +28,25 @@ type Person struct {
 // Prints it
 // Changes some items in it
 // And writes into new csv-file with other delimiter
-func csvExamples() {
+func main() {
 
 	// get csv data from file
-	csvFile, err := os.Open(CSV_FILE)
+	csvFile, err := os.Open(CsvFile)
 	check(err)
 	defer csvFile.Close()
 
 	reader := csv.NewReader(csvFile)
-	reader.Comma = COMMA_IN
-
+	reader.Comma = CommaIn
 	csvData, err := reader.ReadAll()
 	check(err)
+
+	log.Println("File", CsvFile, "read successfully!")
 
 	// fill persons from csv data
 	persons := make([]Person, 0, len(csvData))
 	csv2Slice(csvData, &persons)
+
+	log.Println("Persons filled...")
 
 	// print persons
 	fmt.Printf("%v\n", csvData[0]) //header
@@ -48,25 +54,29 @@ func csvExamples() {
 
 	// change some items
 	persons[0].firstName, persons[0].lastName = "Eugene", "Klimov"
+	persons[5].emailAddr = "------------------"
 	persons[9].firstName, persons[9].lastName, persons[9].mobPhone = "John", "Klim", "+12345678910"
 	slice2CSV(persons, &csvData)
 
+	log.Println("Persons edited...")
+
+	// print changed persons
+	fmt.Println(persons) // persons data in custom string
+
 	// write new file from changed csv data
-	newFile, err := os.Create(CSV_FILE_NEW)
+	newFile, err := os.Create(CsvFileNew)
 	check(err)
 	defer newFile.Close()
 
 	writer := csv.NewWriter(newFile)
-	writer.Comma = COMMA_OUT
+	writer.Comma = CommaOut
 	err = writer.WriteAll(csvData)
 	check(err)
 
-	// print changed persons
-	fmt.Println("\nWritten successfully!")
-	fmt.Println(persons) // persons data in custom string
+	log.Println("File", CsvFileNew, "written successfully!")
 }
 
-//csv2Slice method fills persons slice from csv
+//csv2Slice fills persons slice from csv
 func csv2Slice(csv [][]string, p *[]Person) {
 	for i, column := range csv {
 		if i == 0 {
@@ -83,7 +93,7 @@ func csv2Slice(csv [][]string, p *[]Person) {
 	}
 }
 
-//slice2CSV method fills csv from persons slice
+//slice2CSV fills csv from persons slice
 func slice2CSV(p []Person, csv *[][]string) {
 	for i, column := range *csv {
 		if i == 0 {
@@ -102,4 +112,11 @@ func (p Person) String() string {
 	f := "\n %s\t%s\t%s\t%s\t%s"
 	s := fmt.Sprintf(f, p.firstName, p.lastName, p.accountLogin, p.emailAddr, p.mobPhone)
 	return s
+}
+
+// check simplifies the code when multiple treatments of the same type of errors
+func check(e error) {
+	if e != nil {
+		log.Fatal(e)
+	}
 }
