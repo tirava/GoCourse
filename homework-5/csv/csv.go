@@ -1,3 +1,7 @@
+// Homework-5: Standard library - Part 1
+// Exercise 3 - CSV example
+// Author: Eugene Klimov
+// Date: 08 may 2019
 package main
 
 import (
@@ -24,7 +28,7 @@ type Person struct {
 	mobPhone     string
 }
 
-// csvExamples reads existing csv file into slice
+// CSV example reads existing csv file into slice
 // Prints it
 // Changes some items in it
 // And writes into new csv-file with other delimiter
