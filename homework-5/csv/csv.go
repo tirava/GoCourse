@@ -60,7 +60,6 @@ func main() {
 	persons[0].firstName, persons[0].lastName = "*Eugen", "*Klimov"
 	persons[5].emailAddr = "*------------------"
 	persons[9].firstName, persons[9].lastName, persons[9].mobPhone = "*John", "*Klim", "*+12345678910"
-	slice2CSV2Slice(&csvData, &persons, true)
 
 	log.Println("Persons edited...")
 
@@ -68,6 +67,7 @@ func main() {
 	fmt.Println(persons) // persons data in custom string
 
 	// write new file from changed csv data
+	slice2CSV2Slice(&csvData, &persons, true)
 	newFile, err := os.Create(CsvFileNew)
 	check(err)
 	defer newFile.Close()
