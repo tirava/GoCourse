@@ -1,5 +1,5 @@
 // Homework-5: Standard library - Part 1
-// Exercise 4 - Copy utility
+// Exercise 4 - MyCopy utility
 // Author: Eugene Klimov
 // Date: 10 may 2019
 package main
@@ -17,7 +17,7 @@ import (
 var vFlag, yFlag, rFlag bool // -v -y -r
 var fileCount int            // copied files counter
 
-// Copy utility take two parameters: source and destination
+// MyCopy utility take two parameters: source and destination
 // And some options: -y with no questions, -v verbose log, -r recursive coping folders
 func main() {
 
@@ -94,6 +94,7 @@ func copyFile(src, dst string) {
 	if vFlag {
 		log.Printf(" - Copied %s -> %s - %d bytes", src, dst, count)
 	}
+
 	fileCount++
 }
 
