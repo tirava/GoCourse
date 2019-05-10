@@ -1,4 +1,4 @@
-Exercises:
+Homework-5, exercises:
 
 1. Time_In_Go.txt
 2. /filereads
@@ -10,5 +10,6 @@ Exercises:
 5. /mygrep
 	go build mygrep.go
 	mygrep -h
-	dir(ls) | mygrep [options] <search string>
+	dir | mygrep [options] <search string>
+	cat mygrep.go | ./mygrep [options] <search string>
 	mygrep [options] <search string> <file>

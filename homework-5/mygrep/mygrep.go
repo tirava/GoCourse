@@ -6,7 +6,6 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"fmt"
 	"io/ioutil"
@@ -26,15 +25,16 @@ func main() {
 		fileName := filepath.Base(os.Args[0])
 		fmt.Printf("usage1: <command> | %s [options] <search string>\n", fileName)
 		fmt.Printf("usage2: %s [options] <search string> <file>\n", fileName)
-		fmt.Printf("example1: dir(ls) | %s my\n", fileName)
-		fmt.Printf("example2: %s -i klim mygrep.go\n", fileName)
+		fmt.Printf("example1: dir | %s my\n", fileName)
+		fmt.Printf("example2: cat maygrep.go | ./%s Klim\n", fileName)
+		fmt.Printf("example3: %s -i klim mygrep.go\n", fileName)
 		flag.PrintDefaults()
 	}
 
 	flag.BoolVar(&iFlag, "i", false, "search case insensitive")
 	flag.Parse()
 
-	searchStr := flag.Args() // search string - array
+	searchStr := flag.Args() // array with search string or +file name
 	l := len(searchStr)
 	if len(os.Args) < 2 || l < 1 || l > 2 {
 		flag.Usage()
@@ -42,48 +42,57 @@ func main() {
 	}
 
 	// check file name is present and search in it
+	var inString string
 	if l == 2 {
 		bs, err := ioutil.ReadFile(searchStr[1])
 		check(err)
-		fmt.Println(findAllStrings(string(bs), searchStr[0]))
+		inString = string(bs)
 	}
 
 	// search from stdin
 	if l == 1 {
-		fmt.Println("Not implemented", searchStr[0])
+		fi, _ := os.Stdin.Stat()
+		// check if stdin from pipe
+		if (fi.Mode() & os.ModeCharDevice) == 0 {
+			bytes, err := ioutil.ReadAll(os.Stdin)
+			check(err)
+			inString = string(bytes)
+		} else { // from terminal - exit
+			flag.Usage()
+			os.Exit(2)
+		}
 	}
+
+	fmt.Println(findAllStrings(&inString, searchStr[0]))
 }
 
 // findAllStrings finds all strings by search template and returns these
-func findAllStrings(inStr, searchStr string) string {
-	var outLines string
+func findAllStrings(inStr *string, searchStr string) string {
+	var outLines, l string
+
+	// check -i options
+	if iFlag {
+		searchStr = strings.ToLower(searchStr)
+	}
 
 	// get lines slice from clear string
-	lines := stringToLines(&inStr)
+	lines := strings.Split(*inStr, "\n")
 
-	// get next line
-	// check line for search string
-	// if found - append to out string
+	// loop checks every line for search string
 	for _, line := range lines {
-		if strings.Contains(line, searchStr) {
-			//outLines = append(outLines, line)
+		// check -i options
+		if iFlag {
+			l = strings.ToLower(line)
+		} else {
+			l = line
+		}
+		// check l but append line
+		if strings.Contains(l, searchStr) {
 			outLines = outLines + line + "\n"
 		}
 	}
 
 	return outLines
-}
-
-// stringToLines convert string to lines slice
-func stringToLines(str *string) (lines []string) {
-
-	scanner := bufio.NewScanner(strings.NewReader(*str))
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-	check(scanner.Err())
-
-	return
 }
 
 // check simplifies the code when multiple treatments of the same type of errors
