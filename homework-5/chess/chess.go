@@ -33,7 +33,7 @@ func main() {
 		}
 		sX, sY = step[:1], step[1:]
 
-		if sX < "a" || sX > "h" || sY < "1" || sY > "8" {
+		if "a" > sX || sX > "h" || "1" > sY || sY > "8" {
 			fmt.Println("Error, repeat please...")
 			continue
 		}
@@ -45,7 +45,9 @@ func main() {
 		horse := Point{}
 		horse.setHorseXY(x, y)
 
-		//get possible steps & check calc performance
+		// get possible steps & check calc performance
+		// in Windows it always 0 seconds (need fix) - run in Linux for correct duration
+		// Or see https://repl.it/repls/FuzzyStripedSmalltalk
 		start := time.Now()
 		points := horse.getHorseSteps()
 		end := time.Now()
