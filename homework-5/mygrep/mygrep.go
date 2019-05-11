@@ -35,22 +35,24 @@ func main() {
 	flag.Parse()
 
 	searchStr := flag.Args() // array with search string or +file name
-	l := len(searchStr)
-	if len(os.Args) < 2 || l < 1 || l > 2 {
+	lenArgsNoFlags := len(searchStr)
+
+	// check num of all args and args without flags
+	if len(os.Args) < 2 || lenArgsNoFlags < 1 || lenArgsNoFlags > 2 {
 		flag.Usage()
 		os.Exit(2)
 	}
 
 	// check file name is present and search in it
 	var inString string
-	if l == 2 {
+	if lenArgsNoFlags == 2 {
 		bs, err := ioutil.ReadFile(searchStr[1])
 		check(err)
 		inString = string(bs)
 	}
 
 	// search from stdin
-	if l == 1 {
+	if lenArgsNoFlags == 1 {
 		fi, _ := os.Stdin.Stat()
 		// check if stdin from pipe
 		if (fi.Mode() & os.ModeCharDevice) == 0 {
@@ -66,7 +68,7 @@ func main() {
 	fmt.Println(findAllStrings(&inString, searchStr[0]))
 }
 
-// findAllStrings finds all strings by search template and returns these
+// findAllStrings finds all strings by search template and returns their
 func findAllStrings(inStr *string, searchStr string) string {
 	var outLines, l string
 
@@ -88,7 +90,7 @@ func findAllStrings(inStr *string, searchStr string) string {
 		}
 		// check l but append line
 		if strings.Contains(l, searchStr) {
-			outLines = outLines + line + "\n"
+			outLines += line + "\n"
 		}
 	}
 
