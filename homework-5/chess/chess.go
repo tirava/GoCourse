@@ -25,7 +25,7 @@ func main() {
 	var sX, sY string
 
 	for {
-		fmt.Printf("\nEnter position of the horse [for example e2] or 'exit': ")
+		fmt.Printf("\nEnter position of the horse [for example 'e2'] or 'exit': ")
 		fmt.Scanln(&step)
 		step = strings.ToLower(step)
 		if step == "exit" {
