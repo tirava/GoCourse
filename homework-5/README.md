@@ -13,3 +13,8 @@ Homework-5, exercises:
 	dir | mygrep [options] <search string>
 	cat mygrep.go | ./mygrep [options] <search string>
 	mygrep [options] <search string> <file>
+
+Homework-4, exercises:
+
+4. /chess
+
