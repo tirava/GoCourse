@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+// Point is base point struct
 type Point struct {
 	x, y int
 }
@@ -31,9 +32,9 @@ func main() {
 		if step == "exit" {
 			os.Exit(0)
 		}
-		sX, sY = step[:1], step[1:]
+		sX, sY = step[:1], step[1:2]
 
-		if "a" > sX || sX > "h" || "1" > sY || sY > "8" {
+		if len(step) > 2 || "a" > sX || sX > "h" || "1" > sY || sY > "8" {
 			fmt.Println("Error, repeat please...")
 			continue
 		}
@@ -85,14 +86,13 @@ func (p Point) getHorseSteps() (steps []Point) {
 
 // getChessFromXY
 func getChessFromXY(x, y int) (sX, sY string) {
-	sX, sY = string(byte(x+97)), string(byte(y+49)) // convert int to char via ascii
+	sX, sY = string(x+97), string(y+49) // convert int to char via ascii
 	return sX, sY
 }
 
 // getXYFromChess
 func getXYFromChess(sX, sY string) (x, y int) {
-	bX, bY := []byte(sX), []byte(sY)
-	x, y = int(bX[0])-97, int(bY[0])-49 // convert char to int via ascii
+	x, y = int(sX[0])-97, int(sY[0])-49 // convert char to int via ascii
 	return x, y
 }
 
