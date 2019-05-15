@@ -1,5 +1,5 @@
 // Homework-6: Standard library - Part 2
-// Exercise 2 - Chess Board
+// Exercise 5 - Chess Board
 // Author: Eugene Klimov
 // Date: 14 may 2019
 package main
