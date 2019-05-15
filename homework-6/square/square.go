@@ -2,6 +2,7 @@
 // Exercise 4 - Square Equation
 // Author: Eugene Klimov
 // Date: 15 may 2019
+
 package square
 
 import "math"

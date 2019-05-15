@@ -2,6 +2,7 @@
 // Exercise 1 - Statistic extending
 // Author: Eugene Klimov
 // Date: 14 may 2019
+
 package statistic
 
 // Average is unchanged fom original author
