@@ -30,7 +30,7 @@ func TestDiscriminant(t *testing.T) {
 	for _, td := range testValues {
 		_, _, d := EquationSquare(td.a, td.b, td.c)
 		if d != td.d {
-			t.Error("For a =", td.a, ", b =", td.b, ", c =", td.c,
+			t.Error("\nFor a =", td.a, ", b =", td.b, ", c =", td.c,
 				"expected discriminant =", td.d, "\nbut got", d)
 		}
 	}
@@ -40,7 +40,7 @@ func TestDiscriminant(t *testing.T) {
 func Test1stArg(t *testing.T) {
 	x1, x2, d := EquationSquare(0, 0, 0)
 	if !math.IsNaN(x1) || !math.IsNaN(x2) || !math.IsNaN(d) {
-		t.Error("For a =", 0,
+		t.Error("\nFor a =", 0,
 			"expected 'x1 = NaN, x2 = NaN, d = NaN' (i.e. impossible)\n but got",
 			"x1 =", x1, ", x2 =", x2, ", d =", d)
 	}
@@ -51,7 +51,7 @@ func TestRoots(t *testing.T) {
 	for _, tr := range testValues {
 		x1, x2, _ := EquationSquare(tr.a, tr.b, tr.c)
 		if x1 != tr.x1 || x2 != tr.x2 {
-			t.Error("For a =", tr.a, ", b =", tr.b, ", c =", tr.c,
+			t.Error("\nFor a =", tr.a, ", b =", tr.b, ", c =", tr.c,
 				"expected x1 =", tr.x1, "x2 =", tr.x2, "\nbut got",
 				"x1 =", x1, ", x2 =", x2)
 		}
