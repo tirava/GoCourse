@@ -6,12 +6,18 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 )
 
 // hostAndPort for listen
 const hostAndPort = "localhost:8080"
+
+type helloData struct {
+	PageTitle string
+	Name, Age string
+}
 
 // Open http://hostAndPort enter parameters and click Send
 // Or directly enter http://hostAndPort/hello?name=Eugene&age=25
@@ -34,8 +40,29 @@ func hello(res http.ResponseWriter, req *http.Request) {
 	name := req.FormValue("name")
 	age := req.FormValue("age")
 
-	// write to response
-	fmt.Fprintf(res, "Your name is: %s\nYour age is: %s", name, age)
+	if name == "" {
+		name = "Евгений Климов"
+	}
+
+	if age == "" {
+		age = "29"
+	}
+
+	// show template with data
+	tmpl, err := template.ParseFiles("./template/hello.gohtml")
+	check(err, "fatal", "Can't open template!")
+
+	data := helloData{
+		PageTitle: "Hello response",
+		Name:      name,
+		Age:       age,
+	}
+
+	// need to view correctly
+	res.Header().Set("Content-Type", "text/html")
+
+	err = tmpl.Execute(res, data)
+	check(err, "fatal", "Can't execute template!")
 }
 
 // check is errors helper
