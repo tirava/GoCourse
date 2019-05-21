@@ -20,6 +20,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	log.Println("Listening port 8000...")
 
 	for {
 		conn, err := listener.Accept()
@@ -40,9 +41,11 @@ func handleRead(c net.Conn) {
 	for {
 		// read messages with \n
 		msg, _ := bufio.NewReader(c).ReadString('\n')
+
 		// convert to lower, cut \n and check
 		msg = strings.ToLower(msg)
 		msg = strings.TrimRight(msg, "\n")
+		msg = strings.TrimRight(msg, "\r") // for windows terminal
 
 		if msg == "exit" {
 			// pong and exit
