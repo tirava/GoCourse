@@ -1,5 +1,5 @@
-// Homework-7: Go routines & channels
-// Exercise 1 - Fibonacci numbers off
+// Homework-7: Goroutines & Channels
+// Exercise 1 - Spinner for 10 seconds
 // Author: Eugene Klimov
 // Date: 21 may 2019
 package main
@@ -9,17 +9,14 @@ import (
 	"time"
 )
 
-// demo fibonacci off in go routines
+// Spinner demo in goroutine
 func main() {
-
 	go spinner(50 * time.Millisecond)
-
 	//	const n = 45
 	//	fibN := fibonacci(n)
-
-	time.Sleep(10 * time.Second) // need sleep for 10 seconds only
-
 	//	fmt.Printf("\rFibonacci(%d) = %d\n", n, fibN)
+
+	time.Sleep(10 * time.Second) // need spin for 10 seconds only
 }
 
 func spinner(delay time.Duration) {
