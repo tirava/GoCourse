@@ -16,7 +16,7 @@ import (
 	"time"
 )
 
-const fileName = "mirrored.txt" // no new line after last record!
+const fileName = "mirrored.txt"
 
 type siteMirror struct {
 	name     string
@@ -38,6 +38,9 @@ func main() {
 		if err == io.EOF {
 			break
 		}
+		if len(line) < 3 { // no fake symbols
+			continue
+		}
 		sitesNames = append(sitesNames, siteMirror{strings.TrimRight(line, "\n"), 0})
 	}
 
@@ -55,16 +58,16 @@ func mirroredQuery(sites []siteMirror) siteMirror {
 	responses := make(chan siteMirror, len(sites))
 
 	for _, site := range sites {
-		site := site // need new copy of site for every goroutine!
+		site := site // need new copy of site for every goroutine?!
 		go func() {
-			responses <- request(site)
+			responses <- site.request()
 		}()
 	}
-	return <-responses // more fastest will return first
+	return <-responses // more fastest will be return first
 }
 
-// request get site and calcs response
-func request(site siteMirror) siteMirror {
+// request method gets site and calcs response
+func (site siteMirror) request() siteMirror {
 
 	start := time.Now()
 	//
