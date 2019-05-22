@@ -3,5 +3,6 @@ rambler.ru
 www.yahoo.com
 google.ru
 google.com
+gazeta.ru
 www.seven-sky.net
 www.ya.ru

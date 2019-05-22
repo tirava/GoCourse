@@ -16,13 +16,16 @@ import (
 	"time"
 )
 
-const fileName = "mirrored.txt"
+const fileName = "mirrored.txt" // no new line after last record!
 
-var sitesNames []string
-var respTime time.Duration
+type siteMirror struct {
+	name     string
+	response time.Duration
+}
 
 // Reads sites from txt file and checks more fastest
 func main() {
+	sitesNames := make([]siteMirror, 0)
 
 	file, err := os.Open(fileName)
 	check(err, "fatal", "Can't open file with sites!")
@@ -35,18 +38,24 @@ func main() {
 		if err == io.EOF {
 			break
 		}
-		sitesNames = append(sitesNames, line)
+		sitesNames = append(sitesNames, siteMirror{strings.TrimRight(line, "\n"), 0})
 	}
 
-	fmt.Println("Fastest site/mirror from:\n", sitesNames, "is:\n", mirroredQuery(sitesNames), "\nresponse is:", respTime)
-	// +ms
+	// print result
+	fmt.Println("Fastest site/mirror from:")
+	for _, site := range sitesNames {
+		fmt.Println(site.name)
+	}
+	s := mirroredQuery(sitesNames)
+	fmt.Println("is:\n", s.name, "\nresponse is:", s.response)
 }
 
-func mirroredQuery(sites []string) string {
-	responses := make(chan string, len(sites))
+// mirroredQuery makes goroutines for responses
+func mirroredQuery(sites []siteMirror) siteMirror {
+	responses := make(chan siteMirror, len(sites))
 
 	for _, site := range sites {
-		site := strings.TrimRight(site, "\n") // need new copy of site name for every goroutine!
+		site := site // need new copy of site for every goroutine!
 		go func() {
 			responses <- request(site)
 		}()
@@ -54,21 +63,22 @@ func mirroredQuery(sites []string) string {
 	return <-responses // more fastest will return first
 }
 
-func request(hostname string) string {
+// request get site and calcs response
+func request(site siteMirror) siteMirror {
 
 	start := time.Now()
 	//
-	response, err := http.Get("http://" + hostname)
-	check(err, "fatal", "Can't execute Get for "+hostname)
+	response, err := http.Get("http://" + site.name)
+	check(err, "fatal", "Can't execute Get for "+site.name)
 	defer response.Body.Close()
 
 	_, err = ioutil.ReadAll(response.Body)
-	check(err, "fatal", "Can't ReadAll for "+hostname)
+	check(err, "fatal", "Can't ReadAll for "+site.name)
 	//
 	end := time.Now()
-	respTime = end.Sub(start)
+	site.response = end.Sub(start)
 
-	return hostname
+	return site
 }
 
 // check is errors helper
