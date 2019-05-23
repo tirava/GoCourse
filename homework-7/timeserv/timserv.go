@@ -38,6 +38,11 @@ func main() {
 func handleRead(c net.Conn) {
 	defer c.Close()
 
+	_, err := c.Write([]byte("\nHello!\n"))
+	if err != nil {
+		log.Println(err)
+	}
+	
 	for {
 		// read messages with \n
 		msg, _ := bufio.NewReader(c).ReadString('\n')

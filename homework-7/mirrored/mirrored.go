@@ -63,7 +63,7 @@ func mirroredQuery(sites []siteMirror) siteMirror {
 			responses <- site.request()
 		}()
 	}
-	return <-responses // more fastest will be return first
+	return <-responses // more fastest response will be returned first
 }
 
 // request method gets site and calcs response

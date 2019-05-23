@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+const N = 10
+
 // Spinner demo in goroutine
 func main() {
 	go spinner(50 * time.Millisecond)
@@ -16,7 +18,7 @@ func main() {
 	//	fibN := fibonacci(n)
 	//	fmt.Printf("\rFibonacci(%d) = %d\n", n, fibN)
 
-	time.Sleep(10 * time.Second) // need spin for 10 seconds only
+	time.Sleep(N * time.Second) // need sleep for N seconds only
 }
 
 func spinner(delay time.Duration) {
