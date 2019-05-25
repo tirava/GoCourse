@@ -139,8 +139,8 @@ func getUserName(addr string) (user string) {
 
 	draft := string(bytes)
 	s := strings.Split(draft, ":")  // draft names
-	sF := strings.Split(s[4], "\"") // name
-	sL := strings.Split(s[5], "\"") // name
+	sF := strings.Split(s[4], "\"") // first
+	sL := strings.Split(s[5], "\"") // last
 	user = sF[1] + " " + sL[1]
 	return
 }
