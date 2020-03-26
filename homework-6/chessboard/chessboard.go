@@ -20,6 +20,7 @@ const (
 	fileName = "chessboard.png"
 )
 
+// CCN = 4
 // Draw chessboard without figures and letters
 func main() {
 	brownOut := color.RGBA{R: 110, G: 50, B: 50, A: 255}
@@ -57,6 +58,7 @@ func main() {
 	fmt.Println("Image file", fileName, "written successfully!")
 }
 
+// CCN = 4
 // check is errors helper
 func check(err error, sType, sMessage string) {
 	if err != nil {
